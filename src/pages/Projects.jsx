@@ -15,7 +15,6 @@ import MovableItem from "../components/MovableItem";
 import Column from "../components/Column";
 import ProjectsContainer from "../components/ProjectsContainer";
 
-
 export const Projects = () => {
   const { user } = useSelector((state) => state.auth);
   const { data, isSuccess, isError, error, isLoading } =
@@ -56,7 +55,9 @@ export const Projects = () => {
 
   const returnItemsForColumn = (columnName) => {
     return projectData
-      .filter((item) => item.column === columnName)
+      .filter((item) => {
+        return item.column === columnName;
+      })
       .map((item, index) => (
         <MovableItem key={item._id} item={item} search={search} index={index} />
       ));

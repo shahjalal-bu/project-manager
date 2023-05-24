@@ -8,9 +8,10 @@ export const messagesApi = apiSlice.injectEndpoints({
       providesTags: ["projects"],
     }),
     updateColumn: builder.mutation({
-      query: ({ id, data }) => {
+      query: ({ _id, data }) => {
+        console.log(data);
         return {
-          url: `/projects/${id}`,
+          url: `/projects/${_id}`,
           method: "PATCH",
           body: data,
         };
@@ -21,7 +22,8 @@ export const messagesApi = apiSlice.injectEndpoints({
             "getProject",
             arg.data.userEmail,
             (draft) => {
-              const draftProject = draft.find((c) => c.id == arg.id);
+              console.log(draft);
+              const draftProject = draft.find((c) => c._id == arg._id);
               draftProject.column = arg.data.column;
             }
           )

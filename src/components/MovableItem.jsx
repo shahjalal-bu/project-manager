@@ -12,6 +12,7 @@ import Calendar from "../assets/images/Calendar";
 import { useAuth } from "../contexts/authContext";
 
 const MovableItem = ({ index, item, search }) => {
+  console.log(item);
   const {
     _id,
     createor,
@@ -23,7 +24,7 @@ const MovableItem = ({ index, item, search }) => {
     color,
     column,
   } = item;
-  const [updateColumn, {}] = useUpdateColumnMutation() || {};
+  const [updateColumn, data] = useUpdateColumnMutation() || {};
   const [deleteProject, {}] = useDeleteProjectMutation();
   const { currentUser } = useAuth();
 
@@ -64,7 +65,7 @@ const MovableItem = ({ index, item, search }) => {
     }),
   });
 
-  const opacity = isDragging ? 0.4 : 1;
+  const opacity = isDragging ? 0.1 : 1;
   drag(drop(ref));
   //Each time search string change i can't trigger no api call so i think debounce no need
   const match =

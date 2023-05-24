@@ -1,6 +1,7 @@
 // import moment from "moment";
 import React, { useState } from "react";
 import TeamEditModal from "./TeamEditModal";
+import moment from "moment/moment";
 
 function Team({ teamInfo }) {
   const { name, description, createdAt, color, _id, members } = teamInfo;
@@ -43,7 +44,9 @@ function Team({ teamInfo }) {
               clipRule="evenodd"
             />
           </svg>
-          <span className="ml-1 leading-none">{createdAt}</span>
+          <span className="ml-1 leading-none">
+            {moment(createdAt).format("MMM Do YY")}
+          </span>
         </div>
       </div>
       {/* pass data to edit modal  */}
