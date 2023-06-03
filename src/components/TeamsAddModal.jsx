@@ -1,7 +1,8 @@
 import React from "react";
+import Select from "react-select";
 
 const TeamsAddModal = ({
-  control = false,
+  control = true,
   setControl,
   teamName,
   setTeamName,
@@ -11,6 +12,13 @@ const TeamsAddModal = ({
   setDescription,
   handleAddTeam,
 }) => {
+  //color
+  const colors = [
+    { value: "green", label: "Green" },
+    { value: "pink", label: "Pink" },
+    { value: "purple", label: "Purple" },
+  ];
+  console.log(bgColor);
   return (
     control && (
       <div
@@ -32,31 +40,17 @@ const TeamsAddModal = ({
               value={teamName}
               onChange={(e) => setTeamName(e.target.value)}
             />
-            <div className="flex items-center p-2">
-              <h2>Select a color:</h2>
-              <div
-                id="green"
-                className={`flex-shrink-0 h-4 w-4 rounded-full border-2 ml-1 cursor-pointer border-green-500 hover:bg-green-500 ${
-                  bgColor === "green" && "bg-green-500"
-                }`}
-                onClick={() => setBgColor("green")}
-              ></div>
-
-              <div
-                id="yellow"
-                className={`flex-shrink-0 h-4 w-4 rounded-full border-2 ml-1 cursor-pointer border-pink-500 hover:bg-pink-500 ${
-                  bgColor === "pink" && "bg-pink-500"
-                }`}
-                onClick={() => setBgColor("pink")}
-              ></div>
-
-              <div
-                id="red"
-                className={`flex-shrink-0 h-4 w-4 rounded-full border-2 ml-1 cursor-pointer border-purple-500 hover:bg-purple-500 ${
-                  bgColor === "purple" && "bg-purple-500"
-                }`}
-                onClick={() => setBgColor("purple")}
-              ></div>
+            <div className="my-2">
+              <Select
+                options={colors}
+                defaultValue={bgColor}
+                onChange={setBgColor}
+                placeholder="Select a color.."
+                isClearable
+                isSearchable
+                isMulti
+                noOptionsMessage={() =>"No color found!"}
+              />
             </div>
 
             <textarea
@@ -67,6 +61,7 @@ const TeamsAddModal = ({
               onChange={(e) => setDescription(e.target.value)}
             />
           </div>
+
           <div className="text-center">
             <button
               className="px-5 py-2 bg-gray-700 text-white rounded"

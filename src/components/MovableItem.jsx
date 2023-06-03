@@ -12,7 +12,6 @@ import Calendar from "../assets/images/Calendar";
 import { useAuth } from "../contexts/authContext";
 
 const MovableItem = ({ index, item, search }) => {
-  console.log(item);
   const {
     _id,
     createor,
@@ -20,7 +19,7 @@ const MovableItem = ({ index, item, search }) => {
     description,
     projectName,
     teammembers,
-    createat,
+    createdAt,
     color,
     column,
   } = item;
@@ -100,7 +99,7 @@ const MovableItem = ({ index, item, search }) => {
           <div className="flex items-center">
             <Calendar />
             <span className="ml-1 leading-none">
-              {moment(Number(createat)).format("MMM Do YY")}
+              {moment(createdAt).format("DD MM YYYY")}
             </span>
           </div>
 
