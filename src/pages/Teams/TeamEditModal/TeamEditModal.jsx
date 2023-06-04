@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import TeamUserSelector from "./TeamUserSelector";
+import TeamUserSelector from "../TeamUserSelector/TeamUserSelector";
 
 const TeamEditModal = ({ setControl, members, id }) => {
   return (

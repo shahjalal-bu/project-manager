@@ -4,16 +4,15 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { TouchBackend } from "react-dnd-touch-backend";
 //Redux import
-import { useGetProjectQuery } from "../features/projects/projectsApi";
+import { useGetProjectQuery } from "../../../features/projects/projectsApi";
 import { useSelector } from "react-redux";
 //utils import
-import { COLUMN_NAMES } from "../utils/constants";
+import { COLUMN_NAMES } from "../../../utils/constants";
 //component import
-import Error from "../components/ui/Error";
-import ProjectAddModal from "../components/ProjectAddModal";
-import MovableItem from "../components/MovableItem";
-import Column from "../components/Column";
-import ProjectsContainer from "../components/ProjectsContainer";
+import Error from "../../shared/Error";
+import ProjectAddModal from "../ProjectAddModal/ProjectAddModal";
+import MovableItem from "../MoveAbleItem/MovableItem";
+import Column from "../Column/Column";
 
 export const Projects = () => {
   const { user } = useSelector((state) => state.auth);
@@ -65,11 +64,11 @@ export const Projects = () => {
 
   return (
     <DndProvider backend={isMobile ? TouchBackend : HTML5Backend}>
-      <ProjectsContainer
-        content={content}
-        search={search}
-        setSearch={setSearch}
-      >
+      <div className="px-10 mt-6">
+        <h1 className="text-2xl font-bold">Project Board</h1>
+      </div>
+      {content}
+      <div className="flex flex-grow px-10 mt-4 space-x-6 overflow-auto">
         {Object.entries(COLUMN_NAMES).map(([key, el], index) => (
           <Column
             key={index}
@@ -83,7 +82,7 @@ export const Projects = () => {
         {control && (
           <ProjectAddModal setControl={setControl} control={control} />
         )}
-      </ProjectsContainer>
+      </div>
     </DndProvider>
   );
 };

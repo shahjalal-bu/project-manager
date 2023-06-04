@@ -1,8 +1,8 @@
 import React from "react";
 import { useDrop } from "react-dnd";
-import PlusImage from "../assets/images/PlusImage";
-import { ItemTypes } from "../utils/ItemTypes";
-import { COLUMN_NAMES } from "../utils/constants";
+import PlusImage from "../../../assets/images/PlusImage";
+import { ItemTypes } from "../../../utils/ItemTypes";
+import { COLUMN_NAMES } from "../../../utils/constants";
 
 const Column = ({ children, title, id, length, setControl }) => {
   const [, drop] = useDrop({

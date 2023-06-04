@@ -1,6 +1,6 @@
 // import moment from "moment";
 import React, { useState } from "react";
-import TeamEditModal from "./TeamEditModal";
+import TeamEditModal from "../TeamEditModal/TeamEditModal";
 import moment from "moment/moment";
 
 function Team({ teamInfo }) {

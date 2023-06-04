@@ -4,12 +4,12 @@ import { useDrag, useDrop } from "react-dnd";
 import {
   useDeleteProjectMutation,
   useUpdateColumnMutation,
-} from "../features/projects/projectsApi";
-import { COLUMN_NAMES } from "../utils/constants";
-import { ItemTypes } from "../utils/ItemTypes";
-import deleteImage from "../assets/images/delete.svg";
-import Calendar from "../assets/images/Calendar";
-import { useAuth } from "../contexts/authContext";
+} from "../../../features/projects/projectsApi";
+import { COLUMN_NAMES } from "../../../utils/constants";
+import { ItemTypes } from "../../../utils/ItemTypes";
+import deleteImage from "../../../assets/images/delete.svg";
+import Calendar from "../../../assets/images/Calendar";
+import { useAuth } from "../../../contexts/authContext";
 
 const MovableItem = ({ index, item, search }) => {
   const {

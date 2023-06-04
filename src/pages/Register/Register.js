@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import logoImage from "../assets/images/lws-logo-light.svg";
-import Error from "../components/ui/Error";
-import { useRegisterMutation } from "../features/auth/authApi";
-import { useAuth } from "../contexts/authContext";
-import { useAddUserMutation } from "../features/users/usersApi";
+import logoImage from "../../assets/images/lws-logo-light.svg";
+import { useAuth } from "../../contexts/authContext";
+import { useAddUserMutation } from "../../features/users/usersApi";
+import Error from "../shared/Error";
 
 export default function Register() {
   const [name, setName] = useState("");
@@ -18,33 +17,8 @@ export default function Register() {
 
   const [addUser, { data, isLoading, error: responseError }] =
     useAddUserMutation();
-
   const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   if (responseError?.data) {
-  //     setError(responseError.data);
-  //   }
-  //   if (data?.accessToken && data?.user) {
-  //     navigate("/teams");
-  //   }
-  // }, [data, responseError, navigate]);
-
   const handleSubmit = async (e) => {
-    // e.preventDefault();
-
-    // setError("");
-
-    // if (confirmPassword !== password) {
-    //     setError("Passwords do not match");
-    // } else {
-    //     register({
-    //         name,
-    //         email,
-    //         password,
-    //     });
-    // }
-
     e.preventDefault();
     if (password !== confirmPassword) {
       return setError("Password don't match !");
@@ -56,15 +30,15 @@ export default function Register() {
         name,
         email,
       })
-      .unwrap()
-      .then(async () => {
-        await signup(email, password, name);
-        navigate("/teams");
-        console.log(data);
-      })
-      .then((error) => {
-        console.log(error);
-      });
+        .unwrap()
+        .then(async () => {
+          await signup(email, password, name);
+          navigate("/teams");
+          console.log(data);
+        })
+        .then((error) => {
+          console.log(error);
+        });
     } catch (err) {
       console.log(err);
       setLoading(false);
@@ -78,11 +52,7 @@ export default function Register() {
         <div className="max-w-md w-full space-y-8">
           <div>
             <Link to="/">
-              <img
-                className="mx-auto h-12 w-auto"
-                src={logoImage}
-                alt="Learn with sumit"
-              />
+              <img className="" src="./logo.png" alt="logo" />
             </Link>
             <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
               Create your account

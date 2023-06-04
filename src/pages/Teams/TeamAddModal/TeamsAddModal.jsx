@@ -18,7 +18,6 @@ const TeamsAddModal = ({
     { value: "pink", label: "Pink" },
     { value: "purple", label: "Purple" },
   ];
-  console.log(bgColor);
   return (
     control && (
       <div

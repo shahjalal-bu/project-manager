@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { BiChevronDown } from "react-icons/bi";
 import { AiOutlineSearch } from "react-icons/ai";
-import { useGetAllUserQuery } from "../features/users/usersApi";
-import { useEditTeamMutation } from "../features/teams/teamsApi";
-import Button from "./ui/Button";
-import { useAuth } from "../contexts/authContext";
+import { useGetAllUserQuery } from "../../../features/users/usersApi";
+import { useEditTeamMutation } from "../../../features/teams/teamsApi";
+import Button from "../../shared/Button";
+import { useAuth } from "../../../contexts/authContext";
 
 const TeamUserSelector = ({ id, members, setControl }) => {
   const [users, setUsers] = useState([]);

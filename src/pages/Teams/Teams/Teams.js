@@ -1,15 +1,15 @@
-import Footer from "../components/Footer";
-import Navbar from "../components/Navbar";
-import Error from "../components/ui/Error";
-import Team from "../components/Team";
-import PlusImage from "../assets/images/PlusImage";
+import Navbar from "../../../layouts/Navbar";
+import Error from "../../shared/Error";
+import Team from "../Team/Team";
+import PlusImage from "../../../assets/images/PlusImage";
 import { useState } from "react";
 import {
   useAddTeamMutation,
   useGetTeamsQuery,
-} from "../features/teams/teamsApi";
+} from "../../../features/teams/teamsApi";
 import { useSelector } from "react-redux";
-import TeamsAddModal from "../components/TeamsAddModal";
+import TeamsAddModal from "../TeamAddModal/TeamsAddModal";
+import Footer from "../../../layouts/Footer";
 
 export default function Teams() {
   const [control, setControl] = useState(false);
@@ -26,8 +26,7 @@ export default function Teams() {
     isError,
     error,
   } = useGetTeamsQuery(email);
-  const [addTeam, {}] =
-    useAddTeamMutation();
+  const [addTeam, {}] = useAddTeamMutation();
 
   // decide what to render
   let content = null;
@@ -61,7 +60,6 @@ export default function Teams() {
   return (
     <>
       <div className="flex flex-col w-screen h-screen overflow-auto text-gray-700 bg-gradient-to-tr from-blue-200 via-indigo-200 to-pink-200">
-        <Navbar teams/>
         <div className="px-10 mt-6 flex justify-between">
           <h1 className="text-2xl font-bold">Teams</h1>
           <button
@@ -75,7 +73,6 @@ export default function Teams() {
           {content}
         </div>
       </div>
-      <Footer />
       <TeamsAddModal
         control={control}
         setControl={setControl}
