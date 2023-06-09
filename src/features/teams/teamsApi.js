@@ -5,7 +5,7 @@ export const teamsApi = apiSlice.injectEndpoints({
   tagTypes: ["teams"],
   endpoints: (builder) => ({
     getTeams: builder.query({
-      query: (email) => `/teams`,
+      query: (email) => `/teams?email=${email}`,
       providesTags: ["teams"],
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
@@ -32,16 +32,7 @@ export const teamsApi = apiSlice.injectEndpoints({
         method: "POST",
         body: data,
       }),
-      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
-        try {
-          const { data } = await queryFulfilled;
-          dispatch(
-            apiSlice.util.updateQueryData("getTeams", arg.creator, (draft) => {
-              draft.unshift(data);
-            })
-          );
-        } catch {}
-      },
+      invalidatesTags: ["teams"],
     }),
     editTeam: builder.mutation({
       query: (data) => {
@@ -53,8 +44,21 @@ export const teamsApi = apiSlice.injectEndpoints({
       },
       invalidatesTags: ["teams"],
     }),
+    deleteTeam: builder.mutation({
+      query: (id) => {
+        return {
+          url: `/teams/${id}`,
+          method: "DELETE",
+        };
+      },
+      invalidatesTags: ["teams"],
+    }),
   }),
 });
 
-export const { useGetTeamsQuery, useAddTeamMutation, useEditTeamMutation } =
-  teamsApi;
+export const {
+  useGetTeamsQuery,
+  useAddTeamMutation,
+  useEditTeamMutation,
+  useDeleteTeamMutation,
+} = teamsApi;

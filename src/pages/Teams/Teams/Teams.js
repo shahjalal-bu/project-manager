@@ -7,25 +7,19 @@ import {
   useAddTeamMutation,
   useGetTeamsQuery,
 } from "../../../features/teams/teamsApi";
-import { useSelector } from "react-redux";
 import TeamsAddModal from "../TeamAddModal/TeamsAddModal";
-import Footer from "../../../layouts/Footer";
+import { useAuth } from "../../../contexts/authContext";
 
 export default function Teams() {
   const [control, setControl] = useState(false);
-  const [bgColor, setBgColor] = useState("pink");
 
-  //handle form
-  const [teamName, setTeamName] = useState("");
-  const [description, setDescription] = useState("");
-  const { user } = useSelector((state) => state.auth) || {};
-  const { email } = user || {};
+  const { currentUser } = useAuth() || {};
   const {
     data: teamsData,
     isLoading,
     isError,
     error,
-  } = useGetTeamsQuery(email);
+  } = useGetTeamsQuery(currentUser.email) || {};
   const [addTeam, {}] = useAddTeamMutation();
 
   // decide what to render
@@ -45,18 +39,6 @@ export default function Teams() {
     content = teamsData.map((el) => <Team key={el._id} teamInfo={el} />);
   }
 
-  const handleAddTeam = () => {
-    addTeam({
-      teamname: teamName,
-      members: email,
-      description: description,
-      color: bgColor,
-      creator: email,
-      createat: new Date().getTime(),
-    });
-    setControl();
-  };
-
   return (
     <>
       <div className="flex flex-col w-screen h-screen overflow-auto text-gray-700 bg-gradient-to-tr from-blue-200 via-indigo-200 to-pink-200">
@@ -73,17 +55,7 @@ export default function Teams() {
           {content}
         </div>
       </div>
-      <TeamsAddModal
-        control={control}
-        setControl={setControl}
-        teamName={teamName}
-        setTeamName={setTeamName}
-        bgColor={bgColor}
-        setBgColor={setBgColor}
-        description={description}
-        setDescription={setDescription}
-        handleAddTeam={handleAddTeam}
-      />
+      <TeamsAddModal controller={control} setControl={setControl} />
     </>
   );
 }

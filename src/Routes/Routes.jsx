@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { Navigate, createBrowserRouter } from "react-router-dom";
 import Main from "../layouts/Main";
 import Teams from "../pages/Teams/Teams/Teams";
 import { Projects } from "../pages/Projects/Projects/Projects";
@@ -12,6 +12,10 @@ const router = createBrowserRouter([
     element: <Main />,
     // errorElement: <ErrorPage />,
     children: [
+      {
+        path: "/",
+        element: <Navigate to="/teams" />,
+      },
       {
         path: "/teams",
         element: (

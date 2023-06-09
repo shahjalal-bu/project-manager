@@ -34,6 +34,7 @@ export default function Login() {
               type="text"
               htmlFor="email"
               name="email"
+              placeholder="Enter Your Email"
               className="input rounded-md"
               {...register("email", { required: true })}
             />

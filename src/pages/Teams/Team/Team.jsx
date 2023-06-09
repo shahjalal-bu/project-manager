@@ -2,9 +2,12 @@
 import React, { useState } from "react";
 import TeamEditModal from "../TeamEditModal/TeamEditModal";
 import moment from "moment/moment";
+import deleteImage from "../../../assets/images/delete.svg";
+import { useDeleteTeamMutation } from "../../../features/teams/teamsApi";
 
 function Team({ teamInfo }) {
   const { name, description, createdAt, color, _id, members } = teamInfo;
+ const [deleteTeam,{}] =  useDeleteTeamMutation()
   const [control, setControl] = useState(false);
   return (
     <div
@@ -48,6 +51,12 @@ function Team({ teamInfo }) {
             {moment(createdAt).format("MMM Do YY")}
           </span>
         </div>
+        <button
+          onClick={() => deleteTeam(_id)}
+          className="absolute bottom-4 right-0 flex items-center justify-center w-4 h-4 mt-3 mr-2 text-gray-500 rounded hover:bg-gray-200 hover:text-gray-700 group-hover:flex"
+        >
+          <img src={deleteImage} alt="delete" />
+        </button>
       </div>
       {/* pass data to edit modal  */}
       {control ? (

@@ -3,12 +3,14 @@ import logOutImage from "../assets/images/logout.svg";
 import RoundedButton from "../pages/shared/RoundedButton";
 import { useAuth } from "../contexts/authContext";
 import ActiveLink from "../pages/shared/ActiveLink";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { useSearch } from "../contexts/searchContext";
 
-export default function Navbar({ teams, projects, search, setSearch }) {
+export default function Navbar({ teams, projects }) {
   const { currentUser, logout } = useAuth() || {};
+  const {search, setSearch } = useSearch();
   const { pathname } = useLocation();
-  console.log(pathname);
+  
   return (
     <div className="flex items-center flex-shrink-0 w-full h-20 px-10 bg-white bg-opacity-75">
       <img className="h-12" src="./logo.png" alt="logo" />
@@ -38,19 +40,37 @@ export default function Navbar({ teams, projects, search, setSearch }) {
           <ActiveLink to="/teams">Team</ActiveLink>
         </span>
       </div>
-
-      <div className="flex items-center ml-auto">
-        <button className="flex items-center justify-center w-8 h-8  overflow-hidden rounded-full cursor-pointer">
-          <img src={`https://randomuser.me/api/portraits/men/1.jpg`} alt="" />
-        </button>
-        <RoundedButton text={currentUser?.displayName} />
-        <button
-          className="flex items-center justify-center  p-2 overflow-hidden rounded-full cursor-pointer"
-          onClick={logout}
-        >
-          <img className="w-6 h-6" src={logOutImage} alt="" />
-        </button>
-      </div>
+      {currentUser && (
+        <div className="flex items-center ml-auto">
+          <button className="flex items-center justify-center w-8 h-8  overflow-hidden rounded-full cursor-pointer">
+            <img
+              src={
+                currentUser.photoURL
+                  ? `${currentUser.photoURL}`
+                  : `https://randomuser.me/api/portraits/men/1.jpg`
+              }
+              alt=""
+            />
+          </button>
+          <RoundedButton text={currentUser?.displayName} />
+          <button
+            className="flex items-center justify-center  p-2 overflow-hidden rounded-full cursor-pointer"
+            onClick={logout}
+          >
+            <img className="w-6 h-6" src={logOutImage} alt="" />
+          </button>
+        </div>
+      )}
+      {!currentUser && (
+        <div className="flex items-center ml-auto">
+          <Link
+            className="flex items-center justify-center  p-2 overflow-hidden rounded-full cursor-pointer"
+            to="login"
+          >
+            Login
+          </Link>
+        </div>
+      )}
     </div>
   );
 }

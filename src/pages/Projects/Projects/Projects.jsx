@@ -13,11 +13,13 @@ import Error from "../../shared/Error";
 import ProjectAddModal from "../ProjectAddModal/ProjectAddModal";
 import MovableItem from "../MoveAbleItem/MovableItem";
 import Column from "../Column/Column";
+import { useAuth } from "../../../contexts/authContext";
 
 export const Projects = () => {
-  const { user } = useSelector((state) => state.auth);
+  // const { user } = useSelector((state) => state.auth);
+  const { currentUser } = useAuth();
   const { data, isSuccess, isError, error, isLoading } =
-    useGetProjectQuery(user?.email) || {};
+    useGetProjectQuery(currentUser?.email) || {};
 
   //For modal control
   const [control, setControl] = useState(false);

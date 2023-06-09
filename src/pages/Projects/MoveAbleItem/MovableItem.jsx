@@ -10,23 +10,25 @@ import { ItemTypes } from "../../../utils/ItemTypes";
 import deleteImage from "../../../assets/images/delete.svg";
 import Calendar from "../../../assets/images/Calendar";
 import { useAuth } from "../../../contexts/authContext";
+import { useSearch } from "../../../contexts/searchContext";
 
-const MovableItem = ({ index, item, search }) => {
+const MovableItem = ({ index, item }) => {
   const {
     _id,
     createor,
     name,
     description,
     projectName,
-    teammembers,
+    createorPhoto,
     createdAt,
-    color,
+    teamColor,
     column,
   } = item;
   const [updateColumn, data] = useUpdateColumnMutation() || {};
   const [deleteProject, {}] = useDeleteProjectMutation();
   const { currentUser } = useAuth();
-
+  const { search } = useSearch();
+  
   const changeItemColumn = (columnName) => {
     updateColumn({
       _id,
@@ -36,9 +38,7 @@ const MovableItem = ({ index, item, search }) => {
       },
     });
   };
-
   const ref = useRef(null);
-
   const [, drop] = useDrop({
     accept: ItemTypes.CARD,
   });
@@ -68,7 +68,7 @@ const MovableItem = ({ index, item, search }) => {
   drag(drop(ref));
   //Each time search string change i can't trigger no api call so i think debounce no need
   const match =
-    description.toLowerCase().includes(search.toLowerCase()) && search !== "";
+    description.toLowerCase().includes(search?.toLowerCase()) && search !== "";
 
   return (
     <>
@@ -90,7 +90,7 @@ const MovableItem = ({ index, item, search }) => {
         )}
 
         <span
-          className={`flex items-center h-6 px-3 text-xs font-semibol  text-${color}-500 bg-${color}-100  rounded-full`}
+          className={`flex items-center h-6 px-3 text-xs font-semibol  text-${teamColor}-500 bg-${teamColor}-100  rounded-full`}
         >
           {projectName}
         </span>
@@ -105,7 +105,11 @@ const MovableItem = ({ index, item, search }) => {
 
           <img
             className="w-6 h-6 ml-auto rounded-full"
-            src={`https://randomuser.me/api/portraits/men/3.jpg`}
+            src={
+              createorPhoto
+                ? createorPhoto
+                : `https://randomuser.me/api/portraits/men/3.jpg`
+            }
             alt=""
           />
         </div>

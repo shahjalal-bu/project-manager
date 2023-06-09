@@ -1,10 +1,12 @@
-import { current } from "@reduxjs/toolkit";
 import { apiSlice } from "../api/apiSlice";
 export const projectsApi = apiSlice.injectEndpoints({
   tagTypes: ["projects"],
   endpoints: (builder) => ({
     getProject: builder.query({
-      query: () => `/projects`,
+      query: (email) => {
+        
+        return `/projects?email=${email}`;
+      },
       providesTags: ["projects"],
     }),
     updateColumn: builder.mutation({
@@ -16,11 +18,17 @@ export const projectsApi = apiSlice.injectEndpoints({
         };
       },
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        
+
         const patchResult = dispatch(
-          apiSlice.util.updateQueryData("getProject", undefined, (draft) => {
-            const matchDraftProject = draft.find((el) => el._id == arg._id);
-            matchDraftProject.column = arg.data.column;
-          })
+          apiSlice.util.updateQueryData(
+            "getProject",
+            arg.data.userEmail,
+            (draft) => {
+              const matchDraftProject = draft.find((el) => el._id == arg._id);
+              matchDraftProject.column = arg.data.column;
+            }
+          )
         );
         try {
           await queryFulfilled;
@@ -38,10 +46,13 @@ export const projectsApi = apiSlice.injectEndpoints({
       invalidatesTags: ["projects"],
     }),
     deleteProject: builder.mutation({
-      query: (id) => ({
-        url: `/projects/${id}`,
-        method: "DELETE",
-      }),
+      query: (id) => {
+     
+        return {
+          url: `/projects/${id}`,
+          method: "DELETE",
+        };
+      },
       invalidatesTags: ["projects"],
     }),
   }),

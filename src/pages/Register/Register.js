@@ -15,9 +15,32 @@ export default function Register() {
   const [loading, setLoading] = useState();
   const { signup } = useAuth();
 
-  const [addUser, { data, isLoading, error: responseError }] =
+  const [uploadedImageUrl, setUploadedImageUrl] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [addUser, { data, isLoading: userLoading, error: responseError }] =
     useAddUserMutation();
   const navigate = useNavigate();
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    setIsLoading(true);
+    const formData = new FormData();
+    formData.append("image", file);
+
+    fetch(process.env.REACT_APP_PHOTOHOSTAPI, {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setUploadedImageUrl(data.data.url);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error uploading image:", error);
+        setIsLoading(false);
+      });
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
@@ -32,7 +55,7 @@ export default function Register() {
       })
         .unwrap()
         .then(async () => {
-          await signup(email, password, name);
+          await signup(email, password, name, uploadedImageUrl);
           navigate("/teams");
           console.log(data);
         })
@@ -76,7 +99,6 @@ export default function Register() {
                   onChange={(e) => setName(e.target.value)}
                 />
               </div>
-
               <div>
                 <label htmlFor="email-address" className="sr-only">
                   Email address
@@ -95,6 +117,29 @@ export default function Register() {
               </div>
 
               <div>
+                <label htmlFor="photo" className="sr-only">
+                  Photo
+                </label>
+                <input
+                  name="photo"
+                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-violet-500 focus:border-violet-500 focus:z-10 sm:text-sm"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                />
+                {isLoading && <p>Uploading image...</p>}
+                {uploadedImageUrl && (
+                  <div>
+                    <p>Image uploaded successfully:</p>
+                    <img
+                      className="w-14 rounded-full aspect-square my-2"
+                      src={uploadedImageUrl}
+                      alt="Uploaded"
+                    />
+                  </div>
+                )}
+              </div>
+              <div>
                 <label htmlFor="password" className="sr-only">
                   Password
                 </label>
@@ -110,7 +155,6 @@ export default function Register() {
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
-
               <div>
                 <label htmlFor="confirmPassword" className="sr-only">
                   Confirm Password

@@ -28,13 +28,14 @@ export function AuthProvider({ children }) {
   });
 
   //signup function
-  async function signup(email, password, username) {
+  async function signup(email, password, username, photo) {
     const auth = getAuth();
     await createUserWithEmailAndPassword(auth, email, password);
 
     //update profile
     await updateProfile(auth.currentUser, {
       displayName: username,
+      photoURL: photo,
     });
 
     const user = auth.currentUser;

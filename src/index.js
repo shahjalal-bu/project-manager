@@ -7,6 +7,7 @@ import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { RouterProvider } from "react-router-dom";
 import router from "./Routes/Routes";
+import { SearchProvider } from "./contexts/searchContext";
 
 const container = document.getElementById("root");
 const root = createRoot(container);
@@ -15,7 +16,9 @@ root.render(
   <React.StrictMode>
     <AuthProvider>
       <Provider store={store}>
-        <RouterProvider router={router} />
+        <SearchProvider>
+          <RouterProvider router={router} />
+        </SearchProvider>
       </Provider>
     </AuthProvider>
   </React.StrictMode>
